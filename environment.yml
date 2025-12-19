@@ -1,0 +1,14 @@
+name: phishing-email-detector
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - numpy
+  - pandas
+  - matplotlib
+  - pip:
+      - tensorflow==2.14.0
+      - tensorflow-hub
+      - kagglehub
