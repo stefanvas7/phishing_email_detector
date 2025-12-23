@@ -1,0 +1,8 @@
+setuptools
+numpy
+pandas
+matplotlib
+tensorflow==2.14.0
+tensorflow-hub
+kagglehub
+-e .
