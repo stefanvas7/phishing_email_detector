@@ -2,7 +2,8 @@ setuptools
 numpy
 pandas
 matplotlib
-tensorflow==2.14.0
+# tensorflow
 tensorflow-hub
 kagglehub
--e .
+scikit-learn
+#-e .

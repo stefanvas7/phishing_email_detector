@@ -1,4 +1,4 @@
-#!/opt/miniconda3/conda-bld/openssl_1759488945278/_build_env/bin/perl
+#!/usr/bin/env perl
 # Copyright 2000-2025 The OpenSSL Project Authors. All Rights Reserved.
 #
 # Licensed under the Apache License 2.0 (the "License").  You may not use
