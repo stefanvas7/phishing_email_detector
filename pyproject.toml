@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "phishing-detector"
+version = "0.1.0"
+description = "Compare FNN, LSTM, and Transformer models for phishing email detection"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Stefan Vassilev", email = "stefan@example.com"}
+]
+requires-python = ">=3.10"
+
+dependencies = [
+    "tensorflow==2.13.1",
+    "tf-models-official==2.13.2",
+    "tensorflow-text==2.13.0",
+    "tensorflow-hub==0.16.1",
+    "pandas==2.1.4",
+    "numpy==1.24.3",
+    "kagglehub==0.2.3",
+    "pydantic==2.5.2",
+    "pyyaml==6.0.1",
+    "tqdm==4.66.5",
+    "click==8.1.7",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==7.4.3",
+    "pytest-cov==4.1.0",
+    "black==23.12.1",
+    "ruff==0.1.11",
+]
+
+[project.scripts]
+phishing-train = "phishing_detector.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

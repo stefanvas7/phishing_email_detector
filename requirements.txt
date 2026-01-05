@@ -1,9 +1,28 @@
-setuptools
-numpy
-pandas
-matplotlib
-# tensorflow
-tensorflow-hub
-kagglehub
-scikit-learn
-#-e .
+#core 
+tensorflow==2.13.1
+tf-models-official==2.13.2
+tensorflow-text==2.13.0
+tensorflow-hub==0.16.1
+
+#data handling
+pandas==2.1.4
+numpy==1.26.4
+
+#pre-trained models and tokenizers
+kagglehub==0.2.3
+
+#configuration management
+pydantic==2.5.2
+pyyaml==6.0.1
+
+#logging and progress
+tqdm==4.66.5
+
+#CLI
+click==8.1.7
+
+# Development
+pytest==7.4.3
+pytest-cov==4.1.0
+black==23.12.1
+ruff==0.1.11

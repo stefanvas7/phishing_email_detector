@@ -1,0 +1,20 @@
+# environment.yml
+name: phishing_email_detector
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  # Pin Python version explicitly
+  - python=3.10
+
+  # Make sure pip is available inside the env
+  - pip
+
+  # (Optional) core scientific stack via conda, faster & more stable builds
+  - numpy=1.26.4
+  - pandas=2.1.4
+
+  # Everything managed by pip goes here; this line *links* to requirements.txt
+  - pip:
+      - -r requirements.txt
