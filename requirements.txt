@@ -1,24 +1,24 @@
 #core 
-tensorflow==2.13.1
+tensorflow==2.20.0
 tensorflow-hub==0.16.1
-tf-models-official==2.13.2
+tensorflow-metal==1.2.0
 
 #data handling
-pandas==2.1.4
-numpy==1.26.4
+pandas==2.3.3
+numpy==2.2.6
 
 #pre-trained models and tokenizers
-kagglehub==0.2.3
+kagglehub==0.3.13
 
 #configuration management
-pydantic==2.5.2
-pyyaml==6.0.1
+pydantic==2.12.5
+pyyaml==6.0.3
 
 #logging and progress
-tqdm==4.66.5
+tqdm==4.67.1
 
 #CLI
-click==8.1.7
+click==8.3.1
 
 # Development
 pytest==7.4.3
