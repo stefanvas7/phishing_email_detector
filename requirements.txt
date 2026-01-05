@@ -1,8 +1,7 @@
 #core 
 tensorflow==2.13.1
-tf-models-official==2.13.2
-tensorflow-text==2.13.0
 tensorflow-hub==0.16.1
+tf-models-official==2.13.2
 
 #data handling
 pandas==2.1.4

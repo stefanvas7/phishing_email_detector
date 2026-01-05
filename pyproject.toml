@@ -16,7 +16,6 @@ requires-python = ">=3.10"
 dependencies = [
     "tensorflow==2.13.1",
     "tf-models-official==2.13.2",
-    "tensorflow-text==2.13.0",
     "tensorflow-hub==0.16.1",
     "pandas==2.1.4",
     "numpy==1.24.3",
