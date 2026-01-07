@@ -1,7 +1,6 @@
 #core 
 tensorflow==2.20.0
 tensorflow-hub==0.16.1
-tensorflow-metal==1.2.0
 
 #data handling
 pandas==2.3.3

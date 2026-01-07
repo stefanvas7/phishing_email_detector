@@ -16,7 +16,6 @@ requires-python = ">=3.11"
 dependencies = [
     "tensorflow==2.20.0",
     "tensorflow-hub==0.16.1",
-    "tensorflow-metal==1.2.0",
     "pandas==2.3.3",
     "numpy==2.2.6",
     "kagglehub==0.3.13",
