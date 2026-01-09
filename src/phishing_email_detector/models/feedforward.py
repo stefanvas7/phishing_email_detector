@@ -14,7 +14,6 @@ tf.config.threading.set_inter_op_parallelism_threads(2)
 tf.config.threading.set_intra_op_parallelism_threads(4)
 
 
-import tensorflow as tf
 import tensorflow_hub as hub
 from typing import Dict
 from src.phishing_email_detector.utils.config import FFNConfig, ModelConfig
