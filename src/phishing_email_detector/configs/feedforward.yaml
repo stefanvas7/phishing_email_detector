@@ -7,13 +7,12 @@ data:
 
   batch_size: 32
 
-  # Only used by RNN/TextVectorization; harmless for FNN
   max_tokens: 2000
 
 
 
 model:
-  type: "fnn"
+  model_type: "fnn"
 
   # Google NNLM en-128 embedding dimension
   embedding_dim: 128
@@ -32,13 +31,10 @@ train:
 
   optimizer: "adamw"
 
-  # Same LR you used for BERT fine-tuning is fine for NNLM+FNN too
   learning_rate: 0.001
 
-  # Make runs reproducible
   seed: 42
 
-# -------------------------
-# OUTPUT
-# -------------------------
+
+
 output_dir: "results/feedforward_double_dr02/"

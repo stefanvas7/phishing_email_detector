@@ -6,6 +6,7 @@ YAML config exist for more user friendly configuration parsed using from_yaml() 
 """
 
 from dataclasses import dataclass, asdict
+import os
 from typing import Optional, Dict, Any, Literal
 import yaml
 from pathlib import Path
@@ -69,12 +70,12 @@ class ExperimentConfig:
         # Parse each section
         data = DataConfig(**cfg_dict.get("data", {}))
         model_dict = cfg_dict.get("model", {})
-        model_type = model_dict.get("type", "transformer")
+        model_type = model_dict.get("model_type", "transformer")
         
         if model_type == "fnn":
             model = FFNConfig(**model_dict)
-        elif model_type == "transformer":
-            model = TransformerConfig(**model_dict)
+        # elif model_type == "transformer":
+        #     model = TransformerConfig(**model_dict)
         # elif model_type == "rnn":
         #     model = RNNConfig(**model_dict)
         # elif model_type == "lstm":
