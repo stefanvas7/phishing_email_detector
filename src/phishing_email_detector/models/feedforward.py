@@ -1,4 +1,3 @@
-# Add this at the VERY TOP of your main script, before any TensorFlow imports
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Suppress TF info/warning logs
 os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'  # Prevent OOM by allocating GPU memory gradually
@@ -9,7 +8,6 @@ os.environ['VECLIB_MAXIMUM_THREADS'] = '4'  # macOS Accelerate framework
 
 import tensorflow as tf
 
-# After importing TF, configure thread pools
 tf.config.threading.set_inter_op_parallelism_threads(2)
 tf.config.threading.set_intra_op_parallelism_threads(4)
 
