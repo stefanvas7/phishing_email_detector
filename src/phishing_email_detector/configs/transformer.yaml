@@ -1,0 +1,20 @@
+# Transformer model configuration (best performer)
+data:
+  dataset_path: "data/raw/CEAS_08.csv"
+  train_split: 0.8
+  val_split: 0.1
+  batch_size: 32
+
+model:
+  type: "transformer"
+  bert_variant: "h-768"
+  dropout_rate: 0.4
+
+train:
+  epochs: 5
+  learning_rate: 3e-5
+  optimizer: "adamw"
+  warmup_fraction: 0.1
+  seed: 42
+
+output_dir: "results/transformer_h768_dr04/"

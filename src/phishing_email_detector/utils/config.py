@@ -1,3 +1,10 @@
+"""
+Dataclasses directly configure code components.
+
+YAML config exist for more user friendly configuration parsed using from_yaml() function.
+
+"""
+
 from dataclasses import dataclass, asdict
 from typing import Optional, Dict, Any, Literal
 import yaml
@@ -68,7 +75,11 @@ class ExperimentConfig:
             model = FFNConfig(**model_dict)
         elif model_type == "transformer":
             model = TransformerConfig(**model_dict)
-        # ... handle rnn, lstm
+        # elif model_type == "rnn":
+        #     model = RNNConfig(**model_dict)
+        # elif model_type == "lstm":
+        #     model = LSTMConfig(**model_dict)
+
         
         train = TrainConfig(**cfg_dict.get("train", {}))
         return cls(data=data, model=model, train=train)
