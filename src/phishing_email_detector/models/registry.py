@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 # Use to quieten output when running
-# import warnings
-# warnings.simplefilter(action='ignore', category=FutureWarning)
-# warnings.simplefilter(action='ignore', category=UserWarning)
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+warnings.simplefilter(action='ignore', category=UserWarning)
 
 
 from dataclasses import asdict, is_dataclass
@@ -105,9 +105,9 @@ def get_model_id(config: ModelConfig, prefix: Optional[str] = None) -> str:
 
     Args:
         config:
-            Model config dataclass
+            Model config dataclass (eg. 'model_type': 'fnn', 'dropout_rate': 0.2, 'num_layers': 1, 'embedding_dim': 128, 'hidden_dim': 16)
         prefix:
-            (optional) string to add to the beginning of the id, eg. project name
+            (optional) string to add to the beginning of the id for extra context, eg. project name
     Returns:
         String id 
     """
@@ -139,10 +139,46 @@ def get_model_id(config: ModelConfig, prefix: Optional[str] = None) -> str:
             parts.append(f"layers{value}")
         elif field == "dropout_rate":
             parts.append(f"dr{str(value)}")
-        elif field == "embedding_dim" or field == "hidden_dim":
-            parts.append(f"{field}{value}")
+        elif field == "embedding_dim":
+            parts.append(f"embedding{value}")
+        elif field == "hidden_dim":
+            parts.append(f"hidden{value}")
 
     model_id = "_".join(parts)
     if prefix:
         model_id = f"{prefix}_{model_id}"
     return model_id
+
+def get_model_save_path(
+        model_id: str,
+        base_dir: str | Path = Path("results", "models"),
+        filename: str = "model.keras",
+) -> Path:
+    
+    """
+    Compute path where model should be saved given 'model_id'
+    Example consisten directory structure:
+        base_dir/
+            fnn_layers2_hidden16_dr0.2/
+                model.keras
+                metrics.json
+            transformer_h-768_dr0.4/
+                model.keras
+                metrics.json
+    
+                
+    Args:
+        base_dir:
+            Base directory for model outputs, eg. "results/models"
+        model_id:
+            Identifier from 'get_model_id(config)' function
+        filename:
+            File name for the model, default "model.keras", keras v3 format
+    
+    Returns:
+        Path
+    """
+    base = Path(base_dir)
+    dir_path = base / model_id
+    dir_path.mkdir(parents=True, exist_ok=True)
+    return dir_path / filename
