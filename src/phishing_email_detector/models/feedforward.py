@@ -14,7 +14,7 @@ tf.config.threading.set_intra_op_parallelism_threads(4)
 
 import tensorflow_hub as hub
 from typing import Dict
-from src.phishing_email_detector.utils.config import FFNConfig, ModelConfig
+from src.phishing_email_detector.utils.config import FNNConfig, ModelConfig
 from .base import BaseModel
 
 class FeedforwardModel(BaseModel):
@@ -22,9 +22,9 @@ class FeedforwardModel(BaseModel):
     
     NNLM_URL = "https://www.kaggle.com/models/google/nnlm/TensorFlow2/en-dim128/1"
     
-    def __init__(self, config: FFNConfig):
+    def __init__(self, config: FNNConfig):
         super().__init__(config)
-        self.config: FFNConfig = config
+        self.config: FNNConfig = config
     
     def build(self) -> tf.keras.Model:
         """Build FNN model with NNLM embeddings."""
