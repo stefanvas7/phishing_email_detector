@@ -24,7 +24,7 @@ class DataConfig:
 @dataclass
 class ModelConfig:
     """Base model configuration."""
-    model_type: Literal["fnn", "rnn", "lstm", "transformer"] = "transformer"
+    model_type: Literal["fnn", "rnn", "lstm", "transformer"]# = "transformer"
     dropout_rate: float = 0.2
     num_layers: int = 1
 
