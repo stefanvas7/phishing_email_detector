@@ -1,5 +1,11 @@
 from __future__ import annotations
 
+# Use to quieten output when running
+# import warnings
+# warnings.simplefilter(action='ignore', category=FutureWarning)
+# warnings.simplefilter(action='ignore', category=UserWarning)
+
+
 from dataclasses import asdict, is_dataclass
 from pathlib import Path
 from typing import Callable, Dict, Type, Any, Tuple, Optional, Literal
@@ -87,4 +93,56 @@ def get_model(config: ModelConfig) -> Any:
     return model_instance
 
     
+def get_registered_model_types() -> Dict[str, ModelEntry]:
+    """
+    returns the registry mapping model_type to ModelEntry
+    """
+    return dict(_MODEL_REGISTRY)
 
+def get_model_id(config: ModelConfig, prefix: Optional[str] = None) -> str:
+    """
+    Used to differentiate between variations of same architecture, eg. same FNN but different dropout rate
+
+    Args:
+        config:
+            Model config dataclass
+        prefix:
+            (optional) string to add to the beginning of the id, eg. project name
+    Returns:
+        String id 
+    """
+    if not is_dataclass(config):
+        raise ModelRegistryError("Config must be dataclass")
+
+    if not hasattr(config, "model_type"):
+        raise ModelRegistryError("Config must have a 'model_type attribute")
+
+    model_type: str = getattr(config, "model_type")
+    entry = _MODEL_REGISTRY.get(model_type)
+    if entry is None:
+        raise ModelRegistryError(f"Unknown model_type '{model_type}' for model_id generation")
+    
+    # to flat dictionary
+    config_dict = asdict(config)
+# (REMINDER example FNNConfig) == {'model_type': 'fnn', 'dropout_rate': 0.2, 'num_layers': 1, 'embedding_dim': 128, 'hidden_dim': 16}
+
+
+    parts = []
+    # id_fields=("model_type", "num_layers","dropout_rate")
+    for field in entry.id_fields:
+        if field not in config_dict:
+            raise ModelRegistryError(f"Field '{field}' missing from config of type {type(config).__name__}, required for model_id generation")
+        value = config_dict[field]
+        if field == "model_type":
+            parts.append(str(value))
+        elif field == "num_layers":
+            parts.append(f"layers{value}")
+        elif field == "dropout_rate":
+            parts.append(f"dr{str(value)}")
+        elif field == "embedding_dim" or field == "hidden_dim":
+            parts.append(f"{field}{value}")
+
+    model_id = "_".join(parts)
+    if prefix:
+        model_id = f"{prefix}_{model_id}"
+    return model_id
