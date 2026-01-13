@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 # Use to quieten output when running
-import warnings
-warnings.simplefilter(action='ignore', category=FutureWarning)
-warnings.simplefilter(action='ignore', category=UserWarning)
+# import warnings
+# warnings.simplefilter(action='ignore', category=FutureWarning)
+# warnings.simplefilter(action='ignore', category=UserWarning)
 
 
 from dataclasses import asdict, is_dataclass
@@ -173,6 +173,7 @@ def get_model_save_path(
                 
     Args:
         base_dir:
+            default results/models/[model_id]/model.keras
             Base directory for model outputs, eg. "results/models"
         model_id:
             Identifier from 'get_model_id(config)' function
@@ -186,3 +187,32 @@ def get_model_save_path(
     dir_path = base / model_id
     dir_path.mkdir(parents=True, exist_ok=True)
     return dir_path / filename
+
+def load_saved_model(
+        model_id: str,
+        base_dir: str | Path = Path("results", "models"),
+        filename: str = "model.keras",
+        compile: bool = False,
+) -> tf.keras.Model:
+        """
+        Load previously saved tf.keras model with model_id
+
+        Args:
+            base_dir:
+                default results/models
+                Base directory where models are saved
+            model_id:
+                Model identifier
+            filename:
+                Model file name
+            compile:
+                Whether to compile the model after loading. If false, can be compiled manually with specific optimizer/loss/metrics
+
+        Returns:
+            A tf.keras.Model instance
+        """
+
+        path = get_model_save_path(model_id=model_id,base_dir=base_dir,filename=filename)
+        if not path.exists():
+            raise FileNotFoundError(f"No model file found at {path}")
+        return tf.keras.models.load_model(path,compile=compile)
