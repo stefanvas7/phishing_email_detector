@@ -1,0 +1,90 @@
+from __future__ import annotations
+
+from dataclasses import asdict, is_dataclass
+from pathlib import Path
+from typing import Callable, Dict, Type, Any, Tuple, Optional, Literal
+
+import tensorflow as tf
+
+from src.phishing_email_detector.models.feedforward import FeedforwardModel
+# from src.phishing_email_detector.models.rnn import RnnModel
+# from src.phishing_email_detector.models.transformer import TransformerModel
+
+from src.phishing_email_detector.utils.config import ModelConfig, FNNConfig#, RnnConfig TransformerConfig
+
+class ModelRegistryError(Exception):
+    pass
+class ModelEntry:
+    """
+    Attributes:
+        key: short string identifying network type, eg. fnn, lstm, transformer, etc.
+        model_cls: class that implements model family
+        config_type: The dataclass type that holds the models configuration
+        id_fields: Names of config fields that define the models ID. Used to build unique model_id
+    """
+
+    def __init__(
+            self, key: str, 
+            model_cls: Type[Any], 
+            config_type: Type[ModelConfig], 
+            id_fields: Tuple[str, ...]
+            ) -> None:
+        self.key = key
+        self.model_cls = model_cls
+        self.config_type = config_type
+        self.id_fields = id_fields
+
+
+# Dictionary maps model_type string to ModelEntry
+# expected to live on config objects (config.model_type == ... etc.)
+_MODEL_REGISTRY: Dict[str, ModelEntry] = {
+    "fnn": ModelEntry(
+        key="fnn",
+        model_cls=FeedforwardModel,
+        config_type=FNNConfig,
+        id_fields=("model_type", "num_layers","dropout_rate")
+    ),
+    # To add new architecture add entry here
+}
+
+def get_model(config: ModelConfig) -> Any:
+    """
+    Args:
+        config:
+            dataclass insance for the model configuration. Necessary to have model_type attribute matching key in _MODEL_REGISTRY
+    Returns:
+        Instance of appropriate model class, initialized with the config
+
+    ModelRegistryError raised if model_type is unknown or config doesnt match registry 
+    TODO Add option to train model with config if it doesnt exist
+    """
+    # check if config is dataclass
+    if not is_dataclass(config):
+        raise ModelRegistryError(f"Config object must be a dataclass, got: {type(config)}")
+    # check if config has correct model_type attribute
+    if not hasattr(config, "model_type"):
+        raise ModelRegistryError("Config must have a 'model_type' attribute")
+
+    model_type: str = getattr(config, "model_type") # "fnn", "rnn", etc.
+
+    # check if model_type attribute has known model type from _MDOEL_REGISTRY
+    entry = _MODEL_REGISTRY.get(model_type)
+    if entry is None:
+        raise ModelRegistryError(
+            f"Unknown model_type '{model_type}'. "
+            f"Known types: {list(_MODEL_REGISTRY.keys())}"
+        )
+    
+    # check if config is instance of expected config_type
+    if not isinstance(config, entry.config_type):
+        raise ModelRegistryError(
+            f"Config for model_type {model_type} is not instance of "
+            f"{entry.config_type.__name__}, got: {type(config).__name__}"
+        )
+    
+    
+    model_instance = entry.model_cls(config)
+    return model_instance
+
+    
+
