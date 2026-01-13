@@ -129,20 +129,24 @@ def get_model_id(config: ModelConfig, prefix: Optional[str] = None) -> str:
 
     parts = []
     # id_fields=("model_type", "num_layers","dropout_rate")
+    _shorten_field_name_mapping = {
+        "num_layers": "layers",
+        "hidden_dim": "hiddenDim",
+        "hidden_size": "hiddenSize",
+        "dropout_rate": "dr",
+        "bert_variant": "bert",
+        "embedding_dim": "embeddingDim",
+        "max_tokens": "maxTokens",
+    }
     for field in entry.id_fields:
         if field not in config_dict:
             raise ModelRegistryError(f"Field '{field}' missing from config of type {type(config).__name__}, required for model_id generation")
         value = config_dict[field]
         if field == "model_type":
             parts.append(str(value))
-        elif field == "num_layers":
-            parts.append(f"layers{value}")
-        elif field == "dropout_rate":
-            parts.append(f"dr{str(value)}")
-        elif field == "embedding_dim":
-            parts.append(f"embedding{value}")
-        elif field == "hidden_dim":
-            parts.append(f"hidden{value}")
+        else:
+            shortened = _shorten_field_name_mapping.get(field,field)
+            parts.append(f"{shortened}{value}")
 
     model_id = "_".join(parts)
     if prefix:
