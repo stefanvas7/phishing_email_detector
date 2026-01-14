@@ -14,7 +14,7 @@ from pathlib import Path
 @dataclass
 class DataConfig:
     """Data loading configuration."""
-    dataset_path: str = "data/raw/CEAS_08.csv"
+    dataset_path: str = Path("data","raw","CEAS_08.csv") # "data/raw/CEAS_08.csv"
     train_split: float = 0.8
     val_split: float = 0.1
     test_split: float = 0.1
