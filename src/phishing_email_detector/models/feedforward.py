@@ -14,8 +14,9 @@ tf.config.threading.set_intra_op_parallelism_threads(4)
 
 import tensorflow_hub as hub
 from typing import Dict
-from src.phishing_email_detector.utils.config import FNNConfig, ModelConfig
+from src.phishing_email_detector.utils.config import FNNConfig, ModelConfig, TrainConfig
 from .base import BaseModel
+import kagglehub
 
 class FeedforwardModel(BaseModel):
     """Feedforward Neural Network with NNLM embeddings."""
@@ -25,24 +26,47 @@ class FeedforwardModel(BaseModel):
     def __init__(self, config: FNNConfig):
         super().__init__(config)
         self.config: FNNConfig = config
+        # Pre-download kaggle model
+        print(f"Downloading NNLM embeddings from kaggle")
+        self.nnlm_path = kagglehub.model_download(
+            handle='google/nnlm/TensorFlow2/en-dim128/1'
+        )
     
     def build(self) -> tf.keras.Model:
         """Build FNN model with NNLM embeddings."""
         # Load pre-trained NNLM embeddings
         hub_layer = hub.KerasLayer(
-            self.NNLM_URL,
+            self.nnlm_path,
             dtype=tf.string,
             trainable=False
         )
         
-        model = tf.keras.Sequential()
-        model.add(hub_layer)
+        model = tf.keras.Sequential([
+            hub_layer,
+            *[layer for _ in range(self.config.num_layers) 
+              for layer in [
+                  tf.keras.layers.Dense(self.config.hidden_dim, activation='relu'),
+                  tf.keras.layers.Dropout(self.config.dropout_rate)
+              ]],
+            tf.keras.layers.Dense(1, activation='sigmoid')
+        ])
         
-        # Hidden layers based on num_layers
-        for _ in range(self.config.num_layers):
-            model.add(tf.keras.layers.Dense(self.config.hidden_dim, activation='relu'))
-            model.add(tf.keras.layers.Dropout(self.config.dropout_rate))
         
-        # Output layer
-        model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
+        # model = tf.keras.Sequential()
+        # model.add(hub_layer)
+        
+        # # Hidden layers based on num_layers
+        # for _ in range(self.config.num_layers):
+        #     model.add(tf.keras.layers.Dense(self.config.hidden_dim, activation='relu'))
+        #     model.add(tf.keras.layers.Dropout(self.config.dropout_rate))
+        
+        # # Output layer
+        # model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
         return model
+
+if __name__ == "__main__":
+    test_model = FeedforwardModel(FNNConfig)
+    test_model.compile(optimizer=TrainConfig.optimizer, learning_rate=TrainConfig.learning_rate)
+    print(f"Test_model type: {type(test_model)}")
+    assert test_model is not None
+    # assert len(test_model.model.layers) > 0
