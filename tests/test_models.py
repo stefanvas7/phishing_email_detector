@@ -7,6 +7,8 @@ def test_fnn_build():
     """Smoke test FNN model instantiation."""
     config = FNNConfig()
     model = get_model(config)
+    # assertion error if model is not compiled
+    model.compile()
     assert model.model is not None
     assert len(model.model.layers) > 0
 

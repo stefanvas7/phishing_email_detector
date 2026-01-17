@@ -59,10 +59,3 @@ class FeedforwardModel(BaseModel):
         # # Output layer
         # model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
         return model
-
-if __name__ == "__main__":
-    test_model = FeedforwardModel(FNNConfig)
-    test_model.compile(optimizer=TrainConfig.optimizer, learning_rate=TrainConfig.learning_rate)
-    print(f"Test_model type: {type(test_model)}")
-    assert test_model is not None
-    # assert len(test_model.model.layers) > 0
