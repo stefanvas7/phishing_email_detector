@@ -10,6 +10,7 @@ import os
 from typing import Optional, Dict, Any, Literal
 import yaml
 from pathlib import Path
+import tensorflow as tf
 
 @dataclass
 class DataConfig:
@@ -81,6 +82,6 @@ def from_yaml(cls, yaml_path: str) -> "ExperimentConfig":
     # elif model_type == "lstm":
     #     model = LSTMConfig(**model_dict)
 
-        
-        train = TrainConfig(**cfg_dict.get("train", {}))
-        return cls(data=data, model=model, train=train)
+    
+    train = TrainConfig(**cfg_dict.get("train", {}))
+    return cls(data=data, model=model, train=train)
