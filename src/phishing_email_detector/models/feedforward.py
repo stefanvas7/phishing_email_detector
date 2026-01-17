@@ -16,27 +16,23 @@ import tensorflow_hub as hub
 from typing import Dict
 from src.phishing_email_detector.utils.config import FNNConfig, ModelConfig, TrainConfig
 from .base import BaseModel
-import kagglehub
 
 class FeedforwardModel(BaseModel):
     """Feedforward Neural Network with NNLM embeddings."""
     
-    NNLM_URL = "https://www.kaggle.com/models/google/nnlm/TensorFlow2/en-dim128/1"
+    # TensorFlow Hub URL for NNLM embeddings (more compatible than kagglehub)
+    NNLM_URL = "https://tfhub.dev/google/nnlm-en-dim128/2"
     
     def __init__(self, config: FNNConfig):
         super().__init__(config)
         self.config: FNNConfig = config
-        # Pre-download kaggle model
-        print(f"Downloading NNLM embeddings from kaggle")
-        self.nnlm_path = kagglehub.model_download(
-            handle='google/nnlm/TensorFlow2/en-dim128/1'
-        )
+        print(f"Loading NNLM embeddings from TensorFlow Hub")
     
     def build(self) -> tf.keras.Model:
         """Build FNN model with NNLM embeddings."""
-        # Load pre-trained NNLM embeddings
+        # Load pre-trained NNLM embeddings from TensorFlow Hub
         hub_layer = hub.KerasLayer(
-            self.nnlm_path,
+            self.NNLM_URL,
             dtype=tf.string,
             trainable=False
         )

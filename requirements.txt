@@ -1,10 +1,10 @@
 #core 
-tensorflow==2.20.0
-tensorflow-hub==0.16.1
+tensorflow==2.15.0
+tensorflow-hub==0.15.0
 
 #data handling
 pandas==2.3.3
-numpy==2.2.6
+numpy==1.26.4
 
 #pre-trained models and tokenizers
 kagglehub==0.3.13

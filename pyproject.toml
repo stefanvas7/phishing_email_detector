@@ -14,10 +14,10 @@ authors = [
 requires-python = ">=3.11"
 
 dependencies = [
-    "tensorflow==2.20.0",
-    "tensorflow-hub==0.16.1",
+    "tensorflow==2.25.0",
+    "tensorflow-hub==0.15.0",
     "pandas==2.3.3",
-    "numpy==2.2.6",
+    "numpy==1.26.4",
     "kagglehub==0.3.13",
     "pydantic==2.12.5",
     "pyyaml==6.0.3",
