@@ -47,15 +47,4 @@ class FeedforwardModel(BaseModel):
             tf.keras.layers.Dense(1, activation='sigmoid')
         ])
         
-        
-        # model = tf.keras.Sequential()
-        # model.add(hub_layer)
-        
-        # # Hidden layers based on num_layers
-        # for _ in range(self.config.num_layers):
-        #     model.add(tf.keras.layers.Dense(self.config.hidden_dim, activation='relu'))
-        #     model.add(tf.keras.layers.Dropout(self.config.dropout_rate))
-        
-        # # Output layer
-        # model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
         return model
