@@ -38,6 +38,15 @@ class FNNConfig(ModelConfig):
     num_layers: int = 1
 
 @dataclass
+class RNNConfig(ModelConfig):
+    """RNN-LSTM configuration."""
+    model_type: str = "rnn"
+    embedding_dim: int = 128
+    hidden_dim: int = 16
+    max_tokens: int = 2000  
+    num_layers: int = 1
+
+@dataclass
 class TransformerConfig(ModelConfig):
     """Transformer configuration."""
     model_type: str = "transformer"
