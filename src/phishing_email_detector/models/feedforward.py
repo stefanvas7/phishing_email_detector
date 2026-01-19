@@ -38,7 +38,7 @@ class FeedforwardModel(BaseModel):
             trainable=False
         )
         
-        model = tf.keras.Sequential([
+        self.model = tf.keras.Sequential([
             hub_layer,
             *[layer for _ in range(self.config.num_layers) 
               for layer in [
@@ -48,4 +48,4 @@ class FeedforwardModel(BaseModel):
             tf.keras.layers.Dense(1, activation='sigmoid')
         ])
         
-        return model
+        return self.model
