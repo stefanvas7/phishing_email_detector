@@ -34,4 +34,5 @@ class BaseModel(ABC):
     def summary(self):
         """Print model summary."""
         if self.model:
-            self.model.summary()
+            print(self.model.summary())
+            
