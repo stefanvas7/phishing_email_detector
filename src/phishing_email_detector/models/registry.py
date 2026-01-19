@@ -216,3 +216,27 @@ def load_saved_model(
         if not path.exists():
             raise FileNotFoundError(f"No model file found at {path}")
         return tf.keras.models.load_model(path,compile=compile)
+
+def save_model(
+        model: tf.keras.Model,
+        model_id: str,
+        base_dir: str | Path = Path("results", "models"),
+        filename: str = "model.keras",
+):
+    # TODO test with trained model
+    """
+    Save tf.keras model to disk with model_id
+
+    Args:
+        model:
+            tf.keras.Model instance to save
+        base_dir:
+            default results/models
+            Base directory where models are saved
+        model_id:
+            Model identifier
+        filename:
+            Model file name
+    """
+    path = get_model_save_path(model_id=model_id,base_dir=base_dir,filename=filename)
+    model.save(path)
