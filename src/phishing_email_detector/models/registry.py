@@ -13,10 +13,10 @@ from typing import Callable, Dict, Type, Any, Tuple, Optional, Literal
 import tensorflow as tf
 
 from src.phishing_email_detector.models.feedforward import FeedforwardModel
-# from src.phishing_email_detector.models.rnn import RnnModel
+from src.phishing_email_detector.models.rnn import RNNModel
 # from src.phishing_email_detector.models.transformer import TransformerModel
 
-from src.phishing_email_detector.utils.config import ModelConfig, FNNConfig#, RnnConfig TransformerConfig
+from src.phishing_email_detector.utils.config import ModelConfig, FNNConfig, RNNConfig#, TransformerConfig
 
 class ModelRegistryError(Exception):
     pass
@@ -49,6 +49,12 @@ _MODEL_REGISTRY: Dict[str, ModelEntry] = {
         model_cls=FeedforwardModel,
         config_type=FNNConfig,
         id_fields=("model_type", "num_layers","dropout_rate")
+    ),
+    "rnn": ModelEntry(
+        key="rnn",
+        model_cls=RNNModel,
+        config_type=RNNConfig,
+        id_fields=("model_type", "num_layers","hidden_dim","dropout_rate")
     ),
     # To add new architecture add entry here
 }
