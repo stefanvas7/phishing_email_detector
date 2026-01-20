@@ -19,7 +19,10 @@ from src.phishing_email_detector.utils.config import FNNConfig, ModelConfig, Tra
 from .base import BaseModel
 
 class FeedforwardModel(BaseModel):
-    """Feedforward Neural Network with NNLM embeddings."""
+    """
+    Feedforward Neural Network class with NNLM embeddings
+    RETURNS SEQUENTIAL OBJECT, IT ITSELF IS NOT THE SEQUENTIAL OBJECT
+    """
     
     # TensorFlow Hub URL for NNLM embeddings (more compatible than kagglehub)
     NNLM_URL = "https://tfhub.dev/google/nnlm-en-dim128/2"
