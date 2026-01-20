@@ -1,8 +1,9 @@
 import pytest
 import tensorflow as tf
 from src.phishing_email_detector.models.feedforward import FeedforwardModel
+from src.phishing_email_detector.models.rnn import RNNModel, build_text_vectorizer
 from src.phishing_email_detector.models.registry import get_model
-from src.phishing_email_detector.utils.config import FNNConfig, TransformerConfig
+from src.phishing_email_detector.utils.config import FNNConfig, RNNConfig, TransformerConfig
 
 def test_fnn_build():
     """Smoke test FNN model instantiation."""
@@ -30,3 +31,22 @@ def test_forward_pass():
     model.compile(optimizer="adamw", learning_rate=0.001)
     output = model.model(dummy_text)
     assert output.shape == (1, 1)
+
+def test_rnn_build():
+    """Smoke test RNN model instantiation."""
+    config = RNNConfig()
+    model = get_model(config)
+    # assertion error if model is not compiled
+    model.compile(optimizer="adamw", learning_rate=0.001)
+    assert model.model is not None
+    assert len(model.model.layers) > 0 
+
+    vec = build_text_vectorizer(max_tokens=10000)
+    sample_texts = ["sample email body text", "another test email"]  # dummy data for testing
+    vec.adapt(sample_texts)
+    RNN_instance = RNNModel(RNNConfig)
+    RNN_instance.set_vectorizer(vec)
+    model = RNN_instance.build()
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    model.fit(tf.constant(["sample input"] * 32), tf.constant([0] * 32), epochs=1)
+    print(model.summary())
