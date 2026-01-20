@@ -71,7 +71,7 @@ class RNNModel(BaseModel):
             *[layer for _ in range(self.config.num_layers) 
               for layer in [
                   tf.keras.layers.Bidirectional(
-                      tf.keras.layers.LSTM(self.config.hidden_dim, return_sequences=True)
+                      tf.keras.layers.LSTM(self.config.hidden_dim, return_sequences=False)
                   ),
                   tf.keras.layers.Dropout(self.config.dropout_rate)
               ]],
