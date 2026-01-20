@@ -53,8 +53,8 @@ class RNNModel(BaseModel):
 
     
     def build(self):
-        """Build RNN model with USE embeddings."""
-        # Load pre-trained USE embeddings from TensorFlow Hub
+        """Build RNN model"""
+
         vectorizer = buil_text_vectorizer(
             max_tokens=self.config.max_tokens
         )
