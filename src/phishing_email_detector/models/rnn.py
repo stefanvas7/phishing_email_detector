@@ -18,7 +18,7 @@ from typing import Optional, Literal
 from src.phishing_email_detector.utils.config import RNNConfig, ModelConfig, TrainConfig
 from .base import BaseModel
 
-def buil_text_vectorizer(max_tokens: int, adapt_dataset: Optional[tf.data.Dataset] = None) -> tf.keras.layers.TextVectorization:
+def build_text_vectorizer(max_tokens: int, adapt_dataset: Optional[tf.data.Dataset] = None) -> tf.keras.layers.TextVectorization:
     """
     Attributes:
     max_tokens: Maximum number of tokens (vocabulary size).
@@ -50,19 +50,23 @@ class RNNModel(BaseModel):
     def __init__(self, config: RNNConfig):
         super().__init__(config)
         self.config: RNNConfig = config
+        self.vectorizer = build_text_vectorizer(
+            max_tokens=self.config.max_tokens
+        )
 
-    
+    def set_vectorizer(self, vectorizer: tf.keras.layers.TextVectorization):
+        """
+        Set the text vectorizer layer.
+        NEEDS TO BE SET BEFORE BUILD OR COMPILE
+        """
+        self.vectorizer = vectorizer
+
     def build(self):
         """Build RNN model"""
 
-        vectorizer = buil_text_vectorizer(
-            max_tokens=self.config.max_tokens
-        )
-        sample_texts = ["sample email body text", "another test email"]  # dummy data for testing
-        vectorizer.adapt(sample_texts)
-
+        
         self.model = tf.keras.Sequential([
-            vectorizer,
+            self.vectorizer,
             tf.keras.layers.Embedding(
                 input_dim=self.config.max_tokens,
                 output_dim=self.config.embedding_dim,
