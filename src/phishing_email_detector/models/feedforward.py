@@ -47,5 +47,5 @@ class FeedforwardModel(BaseModel):
               ]],
             tf.keras.layers.Dense(1, activation='sigmoid')
         ])
-        
+        DUMMY_INPUT = tf.constant(["dummy"] * 32)  # Match batch_size      
         return self.model
