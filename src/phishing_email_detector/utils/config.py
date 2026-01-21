@@ -50,8 +50,11 @@ class RNNConfig(ModelConfig):
 class TransformerConfig(ModelConfig):
     """Transformer configuration."""
     model_type: str = "transformer"
-    bert_variant: Literal["h-128", "h-768"] = "h-768"
+    model_variant: Literal["h-128", "h-768"] = "h-768"
     dropout_rate: float = 0.4
+    trainable: bool = True
+    max_length: int = 512
+
 
 @dataclass
 class TrainConfig:
