@@ -9,4 +9,21 @@ I created this project to clean up the notebooks I had roughly created while wri
  - Tensorflow keras
  - Pandas
  - Matplotlib
- - 
+ - YAML
+ - Logging 
+
+
+## Features
+ - Data handling 
+    - CSV loading and train/validation/test split from pre-determined YAML configuration that produces tensorflow Dataset batches
+ - Model registry
+    - A mapping system for model configs to model instances for that configuration. Model ID's that allow for keras models to be saved/loaded
+ - Configuration system
+    - Functionality to create configurations as dataclasses or YAML files which setup hyperparameters to be used throughout the whole pipeline
+ - CLI
+    - A CLI entrypoint making it easier to launch trainings scripts with specific configurations. Or to run a saved model on an input
+    
+
+### Current limitations
+
+Development was done locally on machine with a M2 processor, some libraries had compatibility issues with it so less up-to-date versions had to be used
