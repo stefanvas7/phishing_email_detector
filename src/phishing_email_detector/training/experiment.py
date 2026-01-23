@@ -4,7 +4,7 @@ from typing import Dict, Tuple
 from src.phishing_email_detector.models.registry import get_model
 from src.phishing_email_detector.data.preprocessing import load_dataset, df_to_dataset
 from src.phishing_email_detector.utils.logging import get_logger
-from src.phishing_email_detector.utils.seeding import set_seed
+from src.phishing_email_detector.utils.seeding import set_global_seed
 from src.phishing_email_detector.utils.config import ExperimentConfig
 
 logger = get_logger(__name__)
@@ -14,7 +14,7 @@ class Experiment:
     
     def __init__(self, config: ExperimentConfig):
         self.config = config
-        set_seed(config.train.seed)
+        set_global_seed(config.train.seed)
         self.results: Dict = {}
     
     def run(self):
