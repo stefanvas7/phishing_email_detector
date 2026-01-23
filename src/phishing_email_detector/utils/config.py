@@ -74,26 +74,26 @@ class ExperimentConfig:
     train: TrainConfig
     output_dir: str = "results/"
     
-@classmethod
-def from_yaml(cls, yaml_path: str) -> "ExperimentConfig":
-    """Load config from YAML file."""
-    with open(yaml_path, 'r') as f:
-        cfg_dict = yaml.safe_load(f)
-    
-    # Parse each section
-    data = DataConfig(**cfg_dict.get("data", {}))
-    model_dict = cfg_dict.get("model", {})
-    model_type = model_dict.get("model_type", "transformer")
-    
-    if model_type == "fnn":
-        model = FNNConfig(**model_dict)
-    # elif model_type == "transformer":
-    #     model = TransformerConfig(**model_dict)
-    # elif model_type == "rnn":
-    #     model = RNNConfig(**model_dict)
-    # elif model_type == "lstm":
-    #     model = LSTMConfig(**model_dict)
+    @classmethod
+    def from_yaml(cls, yaml_path: str) -> "ExperimentConfig":
+        """Load config from YAML file."""
+        with open(yaml_path, 'r') as f:
+            cfg_dict = yaml.safe_load(f)
+        
+        # Parse each section
+        data = DataConfig(**cfg_dict.get("data", {}))
+        model_dict = cfg_dict.get("model", {})
+        model_type = model_dict.get("model_type", "transformer")
+        
+        if model_type == "fnn":
+            model = FNNConfig(**model_dict)
+        # elif model_type == "transformer":
+        #     model = TransformerConfig(**model_dict)
+        # elif model_type == "rnn":
+        #     model = RNNConfig(**model_dict)
+        # elif model_type == "lstm":
+        #     model = LSTMConfig(**model_dict)
 
-    
-    train = TrainConfig(**cfg_dict.get("train", {}))
-    return cls(data=data, model=model, train=train)
+        
+        train = TrainConfig(**cfg_dict.get("train", {}))
+        return cls(data=data, model=model, train=train)
