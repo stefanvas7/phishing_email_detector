@@ -1,6 +1,6 @@
 import tensorflow as tf
 from pathlib import Path
-from typing import Dict, Tuple
+from typing import Dict
 from src.phishing_email_detector.models.registry import get_model
 from src.phishing_email_detector.data.preprocessing import load_dataset, df_to_dataset
 from src.phishing_email_detector.utils.logging import get_logger

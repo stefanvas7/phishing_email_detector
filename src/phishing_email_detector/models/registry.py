@@ -245,4 +245,4 @@ def save_model(
             Model file name
     """
     path = get_model_save_path(model_id=model_id,base_dir=base_dir,filename=filename)
-    model.save(path)
+    model.save_model(path )
