@@ -61,6 +61,7 @@ _MODEL_REGISTRY: Dict[str, ModelEntry] = {
 
 def get_model(config: ModelConfig) -> Any:
     """
+    Get model from _MODEL_REGISTRY based on model_type (from config.model_type)
     Args:
         config:
             dataclass insance for the model configuration. Necessary to have model_type attribute matching key in _MODEL_REGISTRY
@@ -95,8 +96,8 @@ def get_model(config: ModelConfig) -> Any:
         )
     
     
-    model_instance = entry.model_cls(config)
-    return model_instance
+    model_cls = entry.model_cls(config)
+    return model_cls
 
     
 def get_registered_model_types() -> Dict[str, ModelEntry]:
