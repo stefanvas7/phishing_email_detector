@@ -105,15 +105,13 @@ def get_registered_model_types() -> Dict[str, ModelEntry]:
     """
     return dict(_MODEL_REGISTRY)
 
-def get_model_id(config: ModelConfig, prefix: Optional[str] = None) -> str:
+def get_model_id(config: ModelConfig) -> str:
     """
     Used to differentiate between variations of same architecture, eg. same FNN but different dropout rate
 
     Args:
         config:
             Model config dataclass (eg. 'model_type': 'fnn', 'dropout_rate': 0.2, 'num_layers': 1, 'embedding_dim': 128, 'hidden_dim': 16)
-        prefix:
-            (optional) string to add to the beginning of the id for extra context, eg. project name
     Returns:
         String id 
     """
