@@ -119,7 +119,7 @@ def get_model_id(config: ModelConfig) -> str:
         raise ModelRegistryError("Config must be dataclass")
 
     if not hasattr(config, "model_type"):
-        raise ModelRegistryError("Config must have a 'model_type attribute")
+        raise ModelRegistryError("Config must have a 'model_type' attribute")
 
     model_type: str = getattr(config, "model_type")
     entry = _MODEL_REGISTRY.get(model_type)
@@ -128,7 +128,7 @@ def get_model_id(config: ModelConfig) -> str:
     
     # to flat dictionary
     config_dict = asdict(config)
-# (REMINDER example FNNConfig) == {'model_type': 'fnn', 'dropout_rate': 0.2, 'num_layers': 1, 'embedding_dim': 128, 'hidden_dim': 16}
+# (example FNNConfig) == {'model_type': 'fnn', 'dropout_rate': 0.2, 'num_layers': 1, 'embedding_dim': 128, 'hidden_dim': 16}
 
 
     parts = []
