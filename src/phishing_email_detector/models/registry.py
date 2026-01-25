@@ -153,8 +153,6 @@ def get_model_id(config: ModelConfig) -> str:
             parts.append(f"{shortened}{value}")
 
     model_id = "_".join(parts)
-    if prefix:
-        model_id = f"{prefix}_{model_id}"
     return model_id
 
 def get_model_save_path(
