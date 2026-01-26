@@ -14,9 +14,9 @@ import tensorflow as tf
 
 from src.phishing_email_detector.models.feedforward import FeedforwardModel
 from src.phishing_email_detector.models.rnn import RNNModel
-# from src.phishing_email_detector.models.transformer import TransformerModel
+from src.phishing_email_detector.models.transformer import TransformerModel
 
-from src.phishing_email_detector.utils.config import ModelConfig, FNNConfig, RNNConfig#, TransformerConfig
+from src.phishing_email_detector.utils.config import ModelConfig, FNNConfig, RNNConfig, TransformerConfig
 
 class ModelRegistryError(Exception):
     pass
@@ -56,6 +56,12 @@ _MODEL_REGISTRY: Dict[str, ModelEntry] = {
         config_type=RNNConfig,
         id_fields=("model_type", "num_layers","hidden_dim","dropout_rate")
     ),
+    "transformer": ModelEntry(
+        key="transformer",
+        model_cls=TransformerModel,
+        config_type=TransformerConfig,
+        id_fields=("model_type", "model_variant","dropout_rate")
+    ),  
     # To add new architecture add entry here
 }
 
