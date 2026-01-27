@@ -1,7 +1,7 @@
 import tensorflow as tf
 from pathlib import Path
 from typing import Dict
-from src.phishing_email_detector.models.registry import get_model
+from src.phishing_email_detector.models.registry import get_model, save_model
 from src.phishing_email_detector.data.preprocessing import load_dataset, df_to_dataset
 from src.phishing_email_detector.utils.logging import get_logger
 from src.phishing_email_detector.utils.seeding import set_global_seed
@@ -13,7 +13,7 @@ logger = get_logger(__name__)
 class Experiment:
     """Unified experiment runner."""
     
-    def __init__(self, config: ExperimentConfig):
+    def __init__(self, config: ExperimentConfig, base_output_dir: Path = Path("results", "models")):
         self.config = config
         set_global_seed(config.train.seed)
         self.results: Dict = {}
@@ -54,6 +54,14 @@ class Experiment:
             'history': history.history
         }
         
+        logger.info(f"Saving model to {self.config.output_dir}...")
+        save_model(
+            model=model.model,
+            model_id=model.get_model_id(self.config.model),
+            base_dir=Path(self.config.output_dir),
+            filename="model.keras"
+        )
+
         logger.info(f"Test Accuracy: {test_acc:.4f}")
         return self.results
 
