@@ -15,6 +15,12 @@ logger = get_logger(__name__)
               default='results/models')
 @click.option('--predict', is_flag=True, help='Run model in prediction mode')
 def main(config: str = 'configs/feedforward.yaml', output_dir: str = 'results/models', predict: bool = False):
+    """
+    Attributes:
+        config (str): Path to YAML config file.
+        output_dir (str): Directory to save output results.
+        predict (bool): If True, run in prediction mode. Else, train the model.
+    """
     if predict:
         """Run prediction on email input (not implemented)."""
         print("Prediction mode is not yet implemented.")
