@@ -179,7 +179,6 @@ def get_model_save_path(
                 model.keras
                 metrics.json
     
-                
     Args:
         base_dir:
             default results/models/[model_id]/model.keras

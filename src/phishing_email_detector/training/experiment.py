@@ -7,6 +7,7 @@ from src.phishing_email_detector.utils.logging import get_logger
 from src.phishing_email_detector.utils.seeding import set_global_seed
 from src.phishing_email_detector.utils.config import ExperimentConfig
 
+
 logger = get_logger(__name__)
 
 class Experiment:
@@ -16,7 +17,7 @@ class Experiment:
         self.config = config
         set_global_seed(config.train.seed)
         self.results: Dict = {}
-    
+   
     def run(self):
         """Run complete experiment: load data, train, evaluate."""
         logger.info(f"Starting experiment with config: {self.config}")
