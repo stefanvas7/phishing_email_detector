@@ -230,7 +230,7 @@ def save_model(
         model_id: str,
         base_dir: str | Path = Path("results", "models"),
         filename: str = "model.keras",
-):
+) -> Path:
     # TODO test with trained model
     """
     Save tf.keras model to disk with model_id
@@ -247,4 +247,5 @@ def save_model(
             Model file name
     """
     path = get_model_save_path(model_id=model_id,base_dir=base_dir,filename=filename)
-    model.save_model(path )
+    model.save_model(path)
+    return path
