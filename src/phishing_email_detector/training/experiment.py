@@ -1,11 +1,11 @@
 import tensorflow as tf
 from pathlib import Path
 from typing import Dict
-from src.phishing_email_detector.models.registry import get_model, save_model
+from src.phishing_email_detector.models.registry import get_model, save_model, get_model_save_path, get_model_id
 from src.phishing_email_detector.data.preprocessing import load_dataset, df_to_dataset
 from src.phishing_email_detector.utils.logging import get_logger
 from src.phishing_email_detector.utils.seeding import set_global_seed
-from src.phishing_email_detector.utils.config import ExperimentConfig
+from src.phishing_email_detector.utils.config import ExperimentConfig, DataConfig, FNNConfig, TrainConfig
 
 
 logger = get_logger(__name__)
@@ -30,41 +30,67 @@ class Experiment:
         
         # Build & train model
         logger.info(f"Building {self.config.model.model_type} model...")
-        model = get_model(self.config.model) # -> FNNConfig inherits base model which returns compiled optimizer and learning rate
-        model.compile( # get_model -> model entry {model_cls:FeedforwardModel} FeedforwardModel -> tf.keras.Sequential 
-            optimizer=self.config.train.optimizer,
-            learning_rate=self.config.train.learning_rate
+        model_wrapper = get_model(self.config.model)
+        keras_model = model_wrapper.build()
+
+        # string to optimizer object
+        if TrainConfig.optimizer == "adamw":
+            opt = tf.keras.optimizers.AdamW(learning_rate=self.config.train.learning_rate)
+        else:
+            opt = tf.keras.optimizers.Adam(learning_rate=self.config.train.learning_rate)
+         
+
+        keras_model.compile(
+            optimizer=opt,
+            loss=tf.keras.losses.BinaryCrossentropy(),
+            metrics=["accuracy"]
         )
-        model.optimizer.learning_rate = self.config.train.learning_rate
-        model.summary()
-        
+
+       # Create model directory in results/models for model checkpoints
+        model_save_dir = get_model_save_path(
+            model_id=get_model_id(self.config.model),
+            base_dir=Path(self.config.output_dir),
+            filename=""
+        ).parent
+
+        print(f"Model checkpoints will be saved to: {model_save_dir}")
+
+        checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
+            filepath=str(model_save_dir) + "/checkpoint_epoch_{epoch:02d}.keras",
+            save_weights_only=False,
+            save_best_only=True,
+            monitor='val_loss',
+            verbose=1
+        )
         logger.info("Training...")
-        history = model.model.fit(
+        history = keras_model.fit(
             train_ds,
             validation_data=val_ds,
-            epochs=self.config.train.epochs
+            epochs=self.config.train.epochs,
+            callbacks=[checkpoint_callback]
         )
-        
+        print(keras_model.summary())
         # Evaluate
         logger.info("Evaluating on test set...")
-        test_loss, test_acc = model.model.evaluate(test_ds)
+        test_loss, test_acc = keras_model.evaluate(test_ds)
         self.results = {
             'test_loss': float(test_loss),
             'test_accuracy': float(test_acc),
             'history': history.history
         }
         
-        logger.info(f"Saving model to {self.config.output_dir}...")
-        save_model(
-            model=model.model,
-            model_id=model.get_model_id(self.config.model),
+        logger.info(f"Saving model...")
+        save_path = save_model(
+            model=model_wrapper.model,
+            model_id=model_wrapper.get_model_id(self.config.model),
             base_dir=Path(self.config.output_dir),
             filename="model.keras"
         )
+        logger.info(f"Model saved to {save_path}")
 
         logger.info(f"Test Accuracy: {test_acc:.4f}")
         return self.results
 
 if __name__ == "__main__":
-    exp = Experiment(ExperimentConfig)
+    exp = Experiment(ExperimentConfig(data=DataConfig(), model=FNNConfig(), train=TrainConfig()))
     exp.run()
