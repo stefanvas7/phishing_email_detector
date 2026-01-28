@@ -23,6 +23,7 @@ def load_dataset(config: DataConfig) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Dat
     train_size = int(config.train_split * len(df))
     val_size = int(config.val_split * len(df))
     
+    # Slicing into train, val and test datasets
     train = df_shuffled.iloc[:train_size]
     val = df_shuffled.iloc[train_size:train_size+val_size]
     test = df_shuffled.iloc[train_size+val_size:]
@@ -31,7 +32,16 @@ def load_dataset(config: DataConfig) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Dat
     return train, val, test
 
 def df_to_dataset(dataframe: pd.DataFrame, batch_size: int = 32, shuffle: bool = True) -> tf.data.Dataset:
-    """Convert DataFrame to tf.data.Dataset."""
+    """
+    Convert DataFrame to tf.data.Dataset.
+    Args:
+        dataframe (pd.DataFrame): Input DataFrame with 'body' and 'label' columns.
+        batch_size (int): Batch size for the dataset.
+        shuffle (bool): Whether to shuffle the dataset.
+    Returns:
+        tf.data.Dataset: Prepared dataset.
+    """
+
     df = dataframe.copy()
     labels = df.pop('label')
     # texts = df['body']
