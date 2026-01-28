@@ -38,16 +38,18 @@ class FeedforwardModel(BaseModel):
         hub_layer = hub.KerasLayer(
             self.NNLM_URL,
             dtype=tf.string,
-            trainable=False
+            trainable=True,
+            name="nnlm_embedding"
         )
         
         self.model = tf.keras.Sequential([
             hub_layer,
             *[layer for _ in range(self.config.num_layers) 
               for layer in [
-                  tf.keras.layers.Dense(self.config.hidden_dim, activation='relu'),
-                  tf.keras.layers.Dropout(self.config.dropout_rate)
+                  tf.keras.layers.Dense(self.config.hidden_dim, activation='relu', name = f"hidden_{_+1}"),
+                  tf.keras.layers.Dropout(self.config.dropout_rate, name = f"dropout_{_+1}")
               ]],
-            tf.keras.layers.Dense(1, activation='sigmoid')
+            tf.keras.layers.Dense(1, activation='sigmoid', name = "output")
         ])
+
         return self.model
