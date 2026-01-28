@@ -32,7 +32,6 @@ class BaseModel(ABC):
         return self.model
     
     def summary(self):
-        """Print model summary."""
         if self.model:
             print(self.model.summary())
             

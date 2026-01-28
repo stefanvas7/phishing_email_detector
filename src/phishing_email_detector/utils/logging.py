@@ -23,7 +23,6 @@ To setup consistent logging throughout the whole project, in the main script (or
     configure_logging()  # once, at startup
 
 This will create a root logger with the specified configuration.
-
 """
 
 from __future__ import annotations

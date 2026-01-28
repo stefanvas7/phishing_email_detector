@@ -47,7 +47,7 @@ def build_text_vectorizer(max_tokens: int, adapt_dataset: Optional[tf.data.Datas
 class RNNModel(BaseModel):
     """
     Recurrent Neural Network with Universal Sentence Encoder embeddings.
-    RETURNS SEQUENTIAL OBJECT, IT ITSELF IS NOT THE SEQUENTIAL OBJECT
+    returns sequential object, it itself is not the sequential object
     """
 
     def __init__(self, config: RNNConfig):

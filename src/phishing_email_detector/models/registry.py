@@ -206,15 +206,10 @@ def load_saved_model(
         Load previously saved tf.keras model with model_id
 
         Args:
-            base_dir:
-                default results/models
-                Base directory where models are saved
-            model_id:
-                Model identifier
-            filename:
-                Model file name
-            compile:
-                Whether to compile the model after loading. If false, can be compiled manually with specific optimizer/loss/metrics
+            base_dir: Base directory where models are saved. Default results/models
+            model_id: Model identifier
+            filename: Model file name
+            compile: Whether to compile the model after loading. If false, can be compiled manually with specific optimizer/loss/metrics
 
         Returns:
             A tf.keras.Model instance
@@ -236,15 +231,10 @@ def save_model(
     Save tf.keras model to disk with model_id
 
     Args:
-        model:
-            tf.keras.Model instance to save
-        base_dir:
-            default results/models
-            Base directory where models are saved
-        model_id:
-            Model identifier
-        filename:
-            Model file name
+        model: tf.keras.Model instance to save
+        base_dir: Base directory where models are saved. Default results/models
+        model_id: Model identifier
+        filename: Model file name
     """
     path = get_model_save_path(model_id=model_id,base_dir=base_dir,filename=filename)
     model.save_model(path)

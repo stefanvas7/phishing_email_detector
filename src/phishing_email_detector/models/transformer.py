@@ -39,7 +39,7 @@ PREPROCESSOR_URL = "https://kaggle.com/models/tensorflow/bert/TensorFlow2/en-unc
 class TransformerModel(BaseModel):
     """
     Transformer Neural Network class with BERT embeddings
-    RETURNS SEQUENTIAL OBJECT, IT ITSELF IS NOT THE SEQUENTIAL OBJECT
+    returns sequential object, it itself is not the sequential object
     """
 
     def __init__(self, config: TransformerConfig):

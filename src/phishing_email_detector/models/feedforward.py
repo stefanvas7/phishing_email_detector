@@ -21,7 +21,7 @@ from .base import BaseModel
 class FeedforwardModel(BaseModel):
     """
     Feedforward Neural Network class with NNLM embeddings
-    RETURNS SEQUENTIAL OBJECT, IT ITSELF IS NOT THE SEQUENTIAL OBJECT
+    returns sequential object, it itself is not the sequential object
     """
     
     # TensorFlow Hub URL for NNLM embeddings (more compatible than kagglehub)
