@@ -1,14 +1,14 @@
 """
 In any module, do:
 
-    from phishing_email_detector.utils.logging import get_logger
+    from src.phishing_email_detector.utils.logging import get_logger
 
     logger = get_logger(__name__)
     logger.info("Starting training...")
 
 To setup consistent logging throughout the whole project, in the main script (or in any testing scripts) or CLI entry point, call:
 
-    from phishing_email_detector.utils.logging import configure_logging
+    from src.phishing_email_detector.utils.logging import configure_logging
     
     config = LoggingConfig(
         level="DEBUG",
