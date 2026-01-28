@@ -36,7 +36,7 @@ def df_to_dataset(dataframe: pd.DataFrame, batch_size: int = 32, shuffle: bool =
     labels = df.pop('label')
     # texts = df['body']
     
-    ds = tf.data.Dataset.from_tensor_slices((df, labels.values))
+    ds = tf.data.Dataset.from_tensor_slices((df['body'].values, labels.values))
     if shuffle:
         ds = ds.shuffle(buffer_size=len(dataframe))
     ds = ds.batch(batch_size).prefetch(tf.data.AUTOTUNE)
