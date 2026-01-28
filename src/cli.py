@@ -10,11 +10,11 @@ logger = get_logger(__name__)
 @click.option('--config', type=click.Path(exists=True), 
               help='Path to YAML config file', 
               default='src/phishing_email_detector/configs/feedforward.yaml')
-@click.option('--output-dir', type=click.Path(), 
+@click.option('--output-dir', type=click.Path(file_okay=False, dir_okay=True, ), 
               help='Output directory for results',
               default='results/models')
-@click.option('--predict', is_flag=True, help='Run model in prediction mode')
-def main(config: str = 'configs/feedforward.yaml', output_dir: str = 'results/models', predict: bool = False):
+@click.option('--predict', is_flag=True, help='Run model in prediction mode', default=False)
+def main(config: str = 'src/phishing_email_detector/configs/feedforward.yaml', output_dir: str = 'results/models', predict: bool = False):
     """
     Attributes:
         config (str): Path to YAML config file.
@@ -23,18 +23,16 @@ def main(config: str = 'configs/feedforward.yaml', output_dir: str = 'results/mo
     """
     if predict:
         """Run prediction on email input (not implemented)."""
-        print("Prediction mode is not yet implemented.")
-        pass
+        print("Prediction mode is not yet implemented.") 
+        return
     """Train a phishing detection model."""
     config = ExperimentConfig.from_yaml(config)
     config.output_dir = output_dir
-    output_dir = Path(output_dir)
-    
-    print(f"Starting training with config: {config}, output_dir: {output_dir}")
+    output_dir: Path = Path(output_dir)
 
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     
-    exp = Experiment(config)
+    exp = Experiment(config=config, base_output_dir=output_dir)
     results = exp.run()
     
     logger.info(f"Results saved to {output_dir}")
