@@ -25,7 +25,7 @@ class DataConfig:
 @dataclass
 class ModelConfig:
     """Base model configuration."""
-    model_type: Literal["fnn", "rnn", "lstm", "transformer"]# = "transformer"
+    model_type: Literal["fnn", "rnn", "lstm", "transformer"] = "fnn"
     dropout_rate: float = 0.2
     num_layers: int = 1
 
@@ -60,7 +60,7 @@ class TransformerConfig(ModelConfig):
 class TrainConfig:
     """Training hyperparameters."""
     epochs: int = 5
-    learning_rate: float = 3e-5
+    learning_rate: float = 0.001
     optimizer: str = "adamw"  # For transformers
     loss_fn: str = "binary_crossentropy"
     warmup_fraction: float = 0.1
