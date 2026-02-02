@@ -9,7 +9,7 @@ from src.phishing_email_detector.utils.config import DataConfig
 
 logger = get_logger(__name__)
 
-def load_dataset(config: DataConfig) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+def load_dataset(config: DataConfig, debug: bool = False, test_size: int = 150) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """Load and split email dataset."""
     logger.info(f"Loading dataset from {config.dataset_path}")
     df = pd.read_csv(config.dataset_path, usecols=['body', 'label'])
@@ -19,7 +19,9 @@ def load_dataset(config: DataConfig) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Dat
     df['body'] = df['body'].astype(str)
     
     # Split
-    df_shuffled = df.sample(frac=1, random_state=42)
+    if debug:
+        df = df.sample(n=min(test_size, len(df)),random_state=SeedConfig.seed)
+    df_shuffled = df.sample(frac=1, random_state=SeedConfig.seed)
     train_size = int(config.train_split * len(df))
     val_size = int(config.val_split * len(df))
     
@@ -50,4 +52,4 @@ def df_to_dataset(dataframe: pd.DataFrame, batch_size: int = 32, shuffle: bool =
     if shuffle:
         ds = ds.shuffle(buffer_size=len(dataframe))
     ds = ds.batch(batch_size).prefetch(tf.data.AUTOTUNE)
-    return ds
+    return ds    return ds    return ds
