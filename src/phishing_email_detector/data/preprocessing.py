@@ -53,4 +53,4 @@ def df_to_dataset(dataframe: pd.DataFrame, batch_size: int = 32, shuffle: bool =
     if shuffle:
         ds = ds.shuffle(buffer_size=len(dataframe))
     ds = ds.batch(batch_size).prefetch(tf.data.AUTOTUNE)
-    return ds    return ds    return ds
+    return ds
