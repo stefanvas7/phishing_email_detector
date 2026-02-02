@@ -166,6 +166,7 @@ def get_model_save_path(
         model_id: str,
         base_dir: str | Path = Path("results", "models"),
         filename: str = "model.keras",
+        debug: bool = False,
 ) -> Path:
     
     """
@@ -192,6 +193,8 @@ def get_model_save_path(
         Path
     """
     base = Path(base_dir)
+    if debug:
+        model_id = f"debug_{model_id}"
     dir_path = base / model_id
     dir_path.mkdir(parents=True, exist_ok=True)
     return dir_path / filename
@@ -225,6 +228,7 @@ def save_model(
         model_id: str,
         base_dir: str | Path = Path("results", "models"),
         filename: str = "model.keras",
+        debug: bool = False,
 ) -> Path:
     # TODO test with trained model
     """
@@ -236,6 +240,6 @@ def save_model(
         model_id: Model identifier
         filename: Model file name
     """
-    path = get_model_save_path(model_id=model_id,base_dir=base_dir,filename=filename)
+    path = get_model_save_path(model_id=model_id,base_dir=base_dir,filename=filename,debug=debug)
     model.save(path)
     return path

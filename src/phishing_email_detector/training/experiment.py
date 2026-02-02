@@ -17,18 +17,20 @@ class Experiment:
             self, 
             config: ExperimentConfig, 
             base_output_dir: Path = Path("results", "models"),
-            debug: bool = False 
+            debug: any = False,
+            debug_size: int = 150
             ):
         self.config = config
         set_global_seed(config.train.seed)
         self.results: Dict = {}
-   
+        self.debug = debug
+        self.debug_size = debug_size 
     def run(self):
         """Run complete experiment: load data, train, evaluate."""
         logger.info(f"Starting experiment with config: {self.config}")
         
         # Load data
-        train_df, val_df, test_df = load_dataset(self.config.data)
+        train_df, val_df, test_df = load_dataset(self.config.data,debug=self.debug,test_size=self.debug_size)
         train_ds = df_to_dataset(train_df, self.config.data.batch_size)
         val_ds = df_to_dataset(val_df, self.config.data.batch_size, shuffle=False)
         test_ds = df_to_dataset(test_df, self.config.data.batch_size, shuffle=False)
@@ -52,16 +54,17 @@ class Experiment:
         )
 
        # Create model directory in results/models for model checkpoints
-        model_save_dir = get_model_save_path(
+        model_checkpoint_dir = Path(get_model_save_path(
             model_id=get_model_id(self.config.model),
             base_dir=Path(self.config.output_dir),
-            filename=""
-        ).parent
+            filename="model.keras",
+            debug=self.debug
+        ).parent,"checkpoints")
 
-        print(f"Model checkpoints will be saved to: {model_save_dir}")
+        print(f"Model checkpoints will be saved to: {model_checkpoint_dir}")
 
         checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
-            filepath=str(model_save_dir) + "/checkpoint_epoch_{epoch:02d}.keras",
+            filepath=str(model_checkpoint_dir) + "/checkpoint_epoch_{epoch:02d}.keras",
             save_weights_only=False,
             save_best_only=True,
             monitor='val_loss',
@@ -84,13 +87,15 @@ class Experiment:
             'history': history.history
         }
         
-        logger.info(f"Saving model...")
+        logger.info(f"Saving model...{get_model_id(self.config.model)}")
         save_path = save_model(
             model=model_wrapper.model,
-            model_id=model_wrapper.get_model_id(self.config.model),
+            model_id=get_model_id(self.config.model),
             base_dir=Path(self.config.output_dir),
-            filename="model.keras"
+            filename="model.keras",
+            debug=self.debug
         )
+        print(f"Save path: {save_path}")
         logger.info(f"Model saved to {save_path}")
 
         logger.info(f"Test Accuracy: {test_acc:.4f}")

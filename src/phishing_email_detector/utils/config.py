@@ -21,6 +21,16 @@ class DataConfig:
     test_split: float = 0.1
     batch_size: int = 32
     max_tokens: int = 2000  # For RNN vectorization
+
+class Testing_DataConfig:
+    """Data loading configuration for testing."""
+    test_subset_size: int = 100
+    dataset_path: str = Path("data","raw","CEAS_08.csv") # "data/raw/CEAS_08.csv"
+    train_split: float = 0.8
+    val_split: float = 0.1
+    test_split: float = 0.1
+    batch_size: int = 8
+    max_tokens: int = 2000  # For RNN vectorization
     
 @dataclass
 class ModelConfig:
@@ -65,6 +75,17 @@ class TrainConfig:
     loss_fn: str = "binary_crossentropy"
     warmup_fraction: float = 0.1
     seed: int = 42
+
+@dataclass
+class Test_TrainConfig:
+    """Test training hyperparameters for debugging"""
+    epochs: int = 1
+    learning_rate: float = 0.001
+    optimizer: str = "adamw"  # For transformers
+    loss_fn: str = "binary_crossentropy"
+    warmup_fraction: float = 0.1
+    seed: int = 42
+
 
 @dataclass
 class ExperimentConfig:
