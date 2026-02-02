@@ -13,7 +13,12 @@ logger = get_logger(__name__)
 class Experiment:
     """Unified experiment runner."""
     
-    def __init__(self, config: ExperimentConfig, base_output_dir: Path = Path("results", "models")):
+    def __init__(
+            self, 
+            config: ExperimentConfig, 
+            base_output_dir: Path = Path("results", "models"),
+            debug: bool = False 
+            ):
         self.config = config
         set_global_seed(config.train.seed)
         self.results: Dict = {}
