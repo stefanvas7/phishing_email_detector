@@ -108,12 +108,10 @@ class ExperimentConfig:
         
         if model_type == "fnn":
             model = FNNConfig(**model_dict)
-        # elif model_type == "transformer":
-        #     model = TransformerConfig(**model_dict)
-        # elif model_type == "rnn":
-        #     model = RNNConfig(**model_dict)
-        # elif model_type == "lstm":
-        #     model = LSTMConfig(**model_dict)
+        elif model_type == "transformer":
+            model = TransformerConfig(**model_dict)
+        elif model_type == "rnn":
+            model = RNNConfig(**model_dict)
 
         
         train = TrainConfig(**cfg_dict.get("train", {}))
