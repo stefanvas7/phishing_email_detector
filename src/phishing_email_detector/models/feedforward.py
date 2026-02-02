@@ -7,6 +7,10 @@ os.environ['MKL_NUM_THREADS'] = '4'  # Limit MKL (Intel Math Kernel Library) thr
 os.environ['OPENBLAS_NUM_THREADS'] = '4'  # Limit OpenBLAS threads
 os.environ['VECLIB_MAXIMUM_THREADS'] = '4'  # macOS Accelerate framework
 
+#KerasLayer progress 
+os.environ['TFHUB_DOWNLOAD_PROGRESS'] = "1"
+
+
 import tensorflow as tf
 
 tf.config.threading.set_inter_op_parallelism_threads(2)
