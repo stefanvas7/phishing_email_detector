@@ -24,6 +24,9 @@ logger = get_logger(__name__)
 @click.option('--config', type=click.Path(exists=True), 
               help='Path to YAML config file', 
               default='src/phishing_email_detector/configs/feedforward.yaml')
+@click.option('--model-type', type=click.Choice(['fnn', 'rnn', 'lstm', 'transformer']),
+              help='Type of model to train', 
+              default='fnn')
 @click.option('--output-dir', type=click.Path(file_okay=False, dir_okay=True, ), 
               help='Output directory for results',
               default='results/models')
@@ -42,6 +45,7 @@ def main(
         config (str): Path to YAML config file.
         output_dir (str): Directory to save output results.
         predict (bool): If True, run in prediction mode. Else, train the model.
+
     """
     if predict:
         """Run prediction on email input (not implemented)."""
