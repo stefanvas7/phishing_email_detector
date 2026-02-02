@@ -1,3 +1,14 @@
+import warnings
+# Silence the pkg_resources deprecation warning from tensorflow_hub
+warnings.filterwarnings(
+    "ignore",
+    message="pkg_resources is deprecated as an API.*",
+    category=UserWarning,
+)
+warnings.filterwarnings(
+    "ignore",
+    message="At this time, the v2.11\\+ optimizer `tf.keras.optimizers.AdamW` runs slowly on M1/M2 Macs.*",
+)
 import click
 from pathlib import Path
 from src.phishing_email_detector.utils.config import ExperimentConfig, FNNConfig, DataConfig, TrainConfig 
