@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Tuple
 from src.phishing_email_detector.utils.logging import configure_logging, LoggingConfig, get_logger
 from src.phishing_email_detector.utils.config import DataConfig
+from src.phishing_email_detector.utils.seeding import SeedConfig
 
 
 logger = get_logger(__name__)
