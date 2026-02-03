@@ -26,7 +26,9 @@ logger = get_logger(__name__)
               default='src/phishing_email_detector/configs/feedforward.yaml')
 @click.option('--model-type', type=click.Choice(['fnn', 'rnn', 'lstm', 'transformer']),
               help='Type of model to train', 
-              default='fnn')
+              default='fnn',
+              flag_value='fnn',
+              is_flag=False)
 @click.option('--output-dir', type=click.Path(file_okay=False, dir_okay=True, ), 
               help='Output directory for results',
               default='results/models')
@@ -47,6 +49,13 @@ def main(
         predict (bool): If True, run in prediction mode. Else, train the model.
 
     """
+    model_type_mapping = {
+            'fnn' : FnnConfig(),
+            'rnn' : RnnConfig(),
+            'transformer' : TransformerConfig()
+            }
+    model_type_cls = model_type_mapping.get(model_type)
+    print(f"Mapped model_config: {model_type_cls}")
     if predict:
         """Run prediction on email input (not implemented)."""
         print("Prediction mode is not yet implemented.") 
@@ -56,8 +65,8 @@ def main(
         print("Debug mode is used")
         config = ExperimentConfig(
                 data=Testing_DataConfig(),
-                model=FNNConfig(),
-                train=Test_TrainConfig,
+                model=model_type_cls,
+                train=Test_TrainConfig(),
                 output_dir=output_dir
                 )
     else:
