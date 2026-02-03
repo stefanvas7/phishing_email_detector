@@ -79,7 +79,7 @@ class TrainConfig:
 @dataclass
 class Test_TrainConfig:
     """Test training hyperparameters for debugging"""
-    epochs: int = 1
+    epochs: int = 5
     learning_rate: float = 0.001
     optimizer: str = "adamw"  # For transformers
     loss_fn: str = "binary_crossentropy"
