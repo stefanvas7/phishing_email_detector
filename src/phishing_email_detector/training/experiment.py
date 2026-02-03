@@ -56,7 +56,7 @@ class Experiment:
         
 
         # string to optimizer object
-        if TrainConfig.optimizer == "adamw":
+        if self.config.train.optimizer == "adamw":
             opt = tf.keras.optimizers.AdamW(learning_rate=self.config.train.learning_rate)
         else:
             opt = tf.keras.optimizers.Adam(learning_rate=self.config.train.learning_rate)
