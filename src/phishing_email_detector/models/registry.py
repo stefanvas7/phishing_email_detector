@@ -47,7 +47,7 @@ _MODEL_REGISTRY: Dict[str, ModelEntry] = {
     "fnn": ModelEntry(
         key="fnn",
         model_cls=FeedforwardModel,
-        config_type=FNNConfig,
+        config_type=FnnConfig,
         id_fields=("model_type", "num_layers","dropout_rate")
     ),
     "rnn": ModelEntry(
