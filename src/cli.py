@@ -80,7 +80,7 @@ def main(
 
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     
-    exp = Experiment(config=config, base_output_dir=output_dir, debug=debug)
+    exp = Experiment(config=config, base_output_dir=config.output_dir, debug=debug)
     results = exp.run()
     
     logger.info(f"Results saved to {output_dir}")
