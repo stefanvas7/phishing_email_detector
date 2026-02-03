@@ -2,6 +2,7 @@ import tensorflow as tf
 from pathlib import Path
 from typing import Dict
 from src.phishing_email_detector.models.registry import get_model, save_model, get_model_save_path, get_model_id
+from src.phishing_email_detector.models.rnn import build_text_vectorizer, RNNModel
 from src.phishing_email_detector.data.preprocessing import load_dataset, df_to_dataset
 from src.phishing_email_detector.utils.logging import get_logger
 from src.phishing_email_detector.utils.seeding import set_global_seed
@@ -39,6 +40,20 @@ class Experiment:
         logger.info(f"Building {self.config.model.model_type} model...")
         model_wrapper = get_model(self.config.model)
         keras_model = model_wrapper.build()
+        
+        # For Rnn models
+        if self.config.model.model_type == "rnn":
+            train_text = train_df["body"].values
+            text_vectorizer = None
+            for layer in keras_model.layers:
+                if isinstance(layer, tf.keras.layers.TextVectorization):
+                    text_vectorizer = layer
+                    break
+                if text_vectorizer is None:
+                    raise RuntimeError("No TextVectorization layer found in Rnn model")
+
+            text_vectorizer.adapt(train_text)
+        
 
         # string to optimizer object
         if TrainConfig.optimizer == "adamw":

@@ -18,7 +18,7 @@ from typing import Optional, Literal
 from src.phishing_email_detector.utils.config import RnnConfig, ModelConfig, TrainConfig
 from .base import BaseModel
 
-def build_text_vectorizer(max_tokens: int, adapt_dataset: Optional[tf.data.Dataset] = None) -> tf.keras.layers.TextVectorization:
+def build_text_vectorizer(max_tokens: int) -> tf.keras.layers.TextVectorization:
     """
     Attributes:
     max_tokens: Maximum number of tokens (vocabulary size).
@@ -37,10 +37,6 @@ def build_text_vectorizer(max_tokens: int, adapt_dataset: Optional[tf.data.Datas
         output_sequence_length=128, 
     )
 
-    if adapt_dataset is not None:
-        test_only_ds = adapt_dataset.map(lambda text, label: text)
-        vectorizer.adapt(test_only_ds)
-    
     return vectorizer
 
 
