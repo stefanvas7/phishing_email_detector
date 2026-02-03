@@ -40,7 +40,7 @@ class ModelConfig:
     num_layers: int = 1
 
 @dataclass
-class FNNConfig(ModelConfig):
+class FnnConfig(ModelConfig):
     """Feedforward network configuration."""
     model_type: str = "fnn"
     embedding_dim: int = 128  # NNLM embedding dimension
@@ -48,7 +48,7 @@ class FNNConfig(ModelConfig):
     num_layers: int = 1
 
 @dataclass
-class RNNConfig(ModelConfig):
+class RnnConfig(ModelConfig):
     """RNN-LSTM configuration."""
     model_type: str = "rnn"
     embedding_dim: int = 128

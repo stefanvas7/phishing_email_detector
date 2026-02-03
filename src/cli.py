@@ -11,7 +11,7 @@ warnings.filterwarnings(
 )
 import click
 from pathlib import Path
-from src.phishing_email_detector.utils.config import ExperimentConfig, FNNConfig, DataConfig, TrainConfig 
+from src.phishing_email_detector.utils.config import ExperimentConfig, FnnConfig, RnnConfig, TransformerConfig, DataConfig, TrainConfig 
 #Testing configs
 from src.phishing_email_detector.utils.config import Test_TrainConfig, Testing_DataConfig
 

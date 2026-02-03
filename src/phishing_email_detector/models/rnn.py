@@ -15,7 +15,7 @@ tf.config.threading.set_intra_op_parallelism_threads(4)
 
 import tensorflow_hub as hub
 from typing import Optional, Literal
-from src.phishing_email_detector.utils.config import RNNConfig, ModelConfig, TrainConfig
+from src.phishing_email_detector.utils.config import RnnConfig, ModelConfig, TrainConfig
 from .base import BaseModel
 
 def build_text_vectorizer(max_tokens: int, adapt_dataset: Optional[tf.data.Dataset] = None) -> tf.keras.layers.TextVectorization:
@@ -50,9 +50,9 @@ class RNNModel(BaseModel):
     returns sequential object, it itself is not the sequential object
     """
 
-    def __init__(self, config: RNNConfig):
+    def __init__(self, config: RnnConfig):
         super().__init__(config)
-        self.config: RNNConfig = config
+        self.config: RnnConfig = config
         self.vectorizer = build_text_vectorizer(
             max_tokens=self.config.max_tokens
         )

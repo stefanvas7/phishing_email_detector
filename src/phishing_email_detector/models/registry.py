@@ -16,7 +16,7 @@ from src.phishing_email_detector.models.feedforward import FeedforwardModel
 from src.phishing_email_detector.models.rnn import RNNModel
 from src.phishing_email_detector.models.transformer import TransformerModel
 
-from src.phishing_email_detector.utils.config import ModelConfig, FNNConfig, RNNConfig, TransformerConfig
+from src.phishing_email_detector.utils.config import ModelConfig, FnnConfig, RnnConfig, TransformerConfig
 
 class ModelRegistryError(Exception):
     pass
@@ -53,7 +53,7 @@ _MODEL_REGISTRY: Dict[str, ModelEntry] = {
     "rnn": ModelEntry(
         key="rnn",
         model_cls=RNNModel,
-        config_type=RNNConfig,
+        config_type=RnnConfig,
         id_fields=("model_type", "num_layers","hidden_dim","dropout_rate")
     ),
     "transformer": ModelEntry(

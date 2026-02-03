@@ -5,7 +5,7 @@ from src.phishing_email_detector.models.registry import get_model, save_model, g
 from src.phishing_email_detector.data.preprocessing import load_dataset, df_to_dataset
 from src.phishing_email_detector.utils.logging import get_logger
 from src.phishing_email_detector.utils.seeding import set_global_seed
-from src.phishing_email_detector.utils.config import ExperimentConfig, DataConfig, FNNConfig, TrainConfig
+from src.phishing_email_detector.utils.config import ExperimentConfig, DataConfig, FnnConfig, TrainConfig
 
 
 logger = get_logger(__name__)
@@ -102,5 +102,5 @@ class Experiment:
         return self.results
 
 if __name__ == "__main__":
-    exp = Experiment(ExperimentConfig(data=DataConfig(), model=FNNConfig(), train=TrainConfig()))
+    exp = Experiment(ExperimentConfig(data=DataConfig(), model=FnnConfig(), train=TrainConfig()))
     exp.run()
