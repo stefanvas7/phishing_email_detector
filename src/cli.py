@@ -72,6 +72,9 @@ def main(
     else:
         """By default use YAML configuration"""
         config = ExperimentConfig.from_yaml(config)
+    # if output_dir is specified change the config output path
+    print(f"Output_dir =: {output_dir}")
+    config.model = model_type_cls
     config.output_dir = output_dir
     output_dir: Path = Path(output_dir)
 
