@@ -35,11 +35,11 @@ logger = get_logger(__name__)
 @click.option('--predict', is_flag=True, help='Run model in prediction mode', default=False)
 @click.option('--debug', is_flag=True, help='Enable debug logging', default=False)
 def main(
-    config: str = 'src/phishing_email_detector/configs/feedforward.yaml', 
-    output_dir: str = 'results/models', 
-    predict: bool = False, 
-    debug: bool = False,
-    model_type: str = 'fnn'
+    config, 
+    output_dir, 
+    predict, 
+    debug,
+    model_type,
     ):
     """
     Train a phishing email detection model.
