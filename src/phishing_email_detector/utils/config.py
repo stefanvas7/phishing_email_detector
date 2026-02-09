@@ -24,7 +24,7 @@ class DataConfig:
 
 class Testing_DataConfig:
     """Data loading configuration for testing."""
-    test_subset_size: int = 100
+    test_subset_size: int = 60
     dataset_path: str = Path("data","raw","CEAS_08.csv") # "data/raw/CEAS_08.csv"
     train_split: float = 0.8
     val_split: float = 0.1
