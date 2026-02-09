@@ -15,7 +15,7 @@ import click
 from pathlib import Path
 from src.phishing_email_detector.utils.config import ExperimentConfig, FnnConfig, RnnConfig, TransformerConfig, DataConfig, TrainConfig 
 #Testing configs
-from src.phishing_email_detector.utils.config import Test_TrainConfig, Testing_DataConfig
+from src.phishing_email_detector.utils.config import Testing_TrainConfig, Testing_DataConfig
 
 from src.phishing_email_detector.training.experiment import Experiment
 from src.phishing_email_detector.utils.logging import get_logger
@@ -87,7 +87,7 @@ def main(
         config = ExperimentConfig(
                 data=Testing_DataConfig(),
                 model=model_type_cls,
-                train=Test_TrainConfig(),
+                train=Testing_TrainConfig(),
                 output_dir=output_dir
                 )
     else:
