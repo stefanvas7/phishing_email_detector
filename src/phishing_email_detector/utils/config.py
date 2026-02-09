@@ -77,7 +77,7 @@ class TrainConfig:
     seed: int = 42
 
 @dataclass
-class Test_TrainConfig:
+class Testing_TrainConfig:
     """Test training hyperparameters for debugging"""
     epochs: int = 5
     learning_rate: float = 0.001
