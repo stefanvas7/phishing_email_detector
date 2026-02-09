@@ -7,6 +7,7 @@ from src.phishing_email_detector.data.preprocessing import load_dataset, df_to_d
 from src.phishing_email_detector.utils.logging import get_logger
 from src.phishing_email_detector.utils.seeding import set_global_seed
 from src.phishing_email_detector.utils.config import ExperimentConfig, DataConfig, FnnConfig, TrainConfig
+from src.phishing_email_detector.training.evaluate import plot_model_metric
 
 
 logger = get_logger(__name__)
@@ -101,7 +102,9 @@ class Experiment:
             'test_accuracy': float(test_acc),
             'history': history.history
         }
-        
+        logger.info("Plotting training history...")
+        plot_model_metric(history=history, metric="accuracy", config=self.config.model, debug=self.debug)
+        plot_model_metric(history=history, metric="loss", config=self.config.model, debug=self.debug)
         logger.info(f"Saving model...{get_model_id(self.config.model)}")
         save_path = save_model(
             model=model_wrapper.model,
