@@ -197,6 +197,7 @@ def get_model_save_path(
         model_id = f"debug_{model_id}"
     dir_path = base / model_id
     dir_path.mkdir(parents=True, exist_ok=True)
+    Path(dir_path, 'metrics').mkdir(parents=True, exist_ok=True)
     return dir_path / filename
 
 def load_saved_model(
