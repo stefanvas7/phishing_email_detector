@@ -56,12 +56,13 @@ _MODEL_REGISTRY: Dict[str, ModelEntry] = {
         config_type=RnnConfig,
         id_fields=("model_type", "num_layers","hidden_dim","dropout_rate")
     ),
-    "transformer": ModelEntry(
-        key="transformer",
-        model_cls=TransformerModel,
-        config_type=TransformerConfig,
-        id_fields=("model_type", "model_variant","dropout_rate")
-    ),  
+    # "transformer": ModelEntry(
+    #     key="transformer",
+    #     model_cls=TransformerModel,
+    #     config_type=TransformerConfig,
+    #     id_fields=("model_type", "model_variant","dropout_rate")
+    # ),  
+    
     # To add new architecture add entry here
 }
 

@@ -26,7 +26,7 @@ logger = get_logger(__name__)
 @click.option('--config', type=click.Path(exists=True), 
               help='Path to YAML config file', 
               default='src/phishing_email_detector/configs/feedforward.yaml')
-@click.option('--model-type', type=click.Choice(['fnn', 'rnn', 'lstm', 'transformer']),
+@click.option('--model-type', type=click.Choice(['fnn', 'rnn', 'lstm']),
               help='Type of model to train', 
               default='fnn',
               flag_value='fnn',
@@ -72,8 +72,8 @@ def main(
 
     model_type_mapping = {
             'fnn' : FnnConfig(),
-            'rnn' : RnnConfig(),
-            'transformer' : TransformerConfig()
+            'rnn' : RnnConfig()
+            # 'transformer' : TransformerConfig()
             }
     model_type_cls = model_type_mapping.get(model_type)
     print(f"Mapped model_config: {model_type_cls}")
