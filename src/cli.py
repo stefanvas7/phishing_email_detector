@@ -9,6 +9,8 @@ warnings.filterwarnings(
     "ignore",
     message="At this time, the v2.11\\+ optimizer `tf.keras.optimizers.AdamW` runs slowly on M1/M2 Macs.*",
 )
+
+from src.phishing_email_detector.utils.logging import configure_logging, LoggingConfig, get_logger
 import click
 from pathlib import Path
 from src.phishing_email_detector.utils.config import ExperimentConfig, FnnConfig, RnnConfig, TransformerConfig, DataConfig, TrainConfig 
@@ -49,6 +51,25 @@ def main(
         predict (bool): If True, run in prediction mode. Else, train the model.
 
     """
+    print("Configure logging")
+    from src.phishing_email_detector.utils.logging import configure_logging, LoggingConfig, get_logger
+
+    """
+    Setup logging for a run with default configuration.
+    Copy import and code below into every script run
+    """
+    config = LoggingConfig(
+        level="INFO",
+        console_level="INFO",
+        file_level="INFO",
+        log_dir="logs",
+        log_file_name="phishing_detector.log",
+        max_bytes=10 * 1024 * 1024,  # 10 MB
+        backup_count=5
+    )
+    configure_logging(config)
+
+
     model_type_mapping = {
             'fnn' : FnnConfig(),
             'rnn' : RnnConfig(),
@@ -58,11 +79,11 @@ def main(
     print(f"Mapped model_config: {model_type_cls}")
     if predict:
         """Run prediction on email input (not implemented)."""
-        print("Prediction mode is not yet implemented.") 
+        logger.info("Prediction mode not implemented yet") 
         return
     elif debug:
         """Use dataclasses with much smaller data and training configurations"""
-        print("Debug mode is used")
+        logger.info("DEBUG MODE ENABLED: Using testing configurations with smaller dataset and fewer epochs")
         config = ExperimentConfig(
                 data=Testing_DataConfig(),
                 model=model_type_cls,
