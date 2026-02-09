@@ -24,12 +24,8 @@ from src.phishing_email_detector.utils.config import TransformerConfig, ModelCon
 from .base import BaseModel
 
 BERT_MODELS_URLS = {
-    "h-128": {
-        "encoder": "https://www.kaggle.com/models/tensorflow/bert/TensorFlow2/bert-en-uncased-l-12-h-128-a-2/2"
-    },
-    "h-768": {
-        "encoder": "https://www.kaggle.com/models/tensorflow/bert/TensorFlow2/bert-en-uncased-l-12-h-768-a-12/2"
-    }
+    "h-128" : "https://www.kaggle.com/models/tensorflow/bert/TensorFlow2/bert-en-uncased-l-12-h-128-a-2/2",
+    "h-768" : "https://www.kaggle.com/models/tensorflow/bert/TensorFlow2/bert-en-uncased-l-12-h-768-a-12/2"
 }
 
 PREPROCESSOR_URL = "https://kaggle.com/models/tensorflow/bert/TensorFlow2/en-uncased-preprocess/3"
