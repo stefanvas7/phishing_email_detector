@@ -90,9 +90,9 @@ class Testing_TrainConfig:
 @dataclass
 class ExperimentConfig:
     """Root experiment configuration."""
-    data: DataConfig
+    data: DataConfig | Testing_DataConfig
     model: ModelConfig
-    train: TrainConfig
+    train: TrainConfig | Testing_TrainConfig
     output_dir: str = "results/"
     
     @classmethod
