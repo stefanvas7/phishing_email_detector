@@ -8,15 +8,15 @@ from __future__ import annotations
 
 from dataclasses import asdict, is_dataclass
 from pathlib import Path
-from typing import Callable, Dict, Type, Any, Tuple, Optional, Literal
+from typing import Dict, Type, Any, Tuple
 
 import tensorflow as tf
 
 from src.phishing_email_detector.models.feedforward import FeedforwardModel
 from src.phishing_email_detector.models.rnn import RNNModel
-from src.phishing_email_detector.models.transformer import TransformerModel
+# from src.phishing_email_detector.models.transformer import TransformerModel
 
-from src.phishing_email_detector.utils.config import ModelConfig, FnnConfig, RnnConfig, TransformerConfig
+from src.phishing_email_detector.utils.config import ModelConfig, FnnConfig, RnnConfig#, TransformerConfig
 
 class ModelRegistryError(Exception):
     pass
@@ -62,7 +62,7 @@ _MODEL_REGISTRY: Dict[str, ModelEntry] = {
     #     config_type=TransformerConfig,
     #     id_fields=("model_type", "model_variant","dropout_rate")
     # ),  
-    
+
     # To add new architecture add entry here
 }
 
