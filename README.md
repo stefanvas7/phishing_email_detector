@@ -28,4 +28,4 @@ I created this project to clean up the notebooks I had roughly created while wri
 
 ### Current limitations
 
-Development was done locally on machine with a M2 processor, some libraries had compatibility issues with it so less up-to-date versions had to be used
+Development was done locally on machine with a M2 processor, some libraries had compatibility issues with it so less up-to-date versions had to be used. Tensorflow-text was incompatible with the processor so a transformer model hasn't been implemented yet.
